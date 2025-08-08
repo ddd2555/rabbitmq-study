@@ -18,5 +18,4 @@ public class MessageController {
         sender.send(message);
         return "[#] Message sent successfully! " + message;
     }
-
 }
