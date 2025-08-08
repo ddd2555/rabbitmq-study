@@ -1,5 +1,6 @@
-package com.study.rabbitmq.step0;
+package com.study.rabbitmq.step2;
 
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,11 +12,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "helloqueue";
+    public static final String QUEUE_NAME = "WorkQueue";
 
     @Bean
     public Queue queue() {
-        return new Queue(QUEUE_NAME, false);
+        return new Queue(QUEUE_NAME, true);
     }
 
     @Bean
@@ -29,14 +30,14 @@ public class RabbitMQConfig {
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(QUEUE_NAME);
         container.setMessageListener(listenerAdapter);
-//        container.setAutoStartup(false); // 자동 시작 비활성화
+        container.setAcknowledgeMode(AcknowledgeMode.AUTO);
 
         return container;
     }
 
     @Bean
-    public MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
+    public MessageListenerAdapter listenerAdapter(WorkQueueConsumer workQueueConsumer) {
+        return new MessageListenerAdapter(workQueueConsumer, "workQueueConsumer");
     }
 
 }
