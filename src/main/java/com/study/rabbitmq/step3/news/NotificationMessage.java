@@ -1,4 +1,4 @@
-package com.study.rabbitmq.step3.notification;
+package com.study.rabbitmq.step3.news;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

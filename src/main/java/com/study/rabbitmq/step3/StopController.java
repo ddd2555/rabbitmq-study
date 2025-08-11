@@ -1,6 +1,6 @@
 package com.study.rabbitmq.step3;
 
-import com.study.rabbitmq.step3.notification.NotificationMessage;
+import com.study.rabbitmq.step3.news.NotificationMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
