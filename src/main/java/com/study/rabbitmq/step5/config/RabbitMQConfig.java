@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String DIRECT_EXCHANGE = "direct_exchange";
+    public static final String TOPIC_EXCHANGE = "topic_exchange";
 
     public static final String ERROR_QUEUE = "errorQueue";
     public static final String WARN_QUEUE = "warnQueue";
     public static final String INFO_QUEUE = "infoQueue";
+    public static final String ALL_LOG_QUEUE = "allLogQueue";
 
     @Bean
     public Queue errorQueue(){
@@ -29,22 +30,32 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public DirectExchange directExchange(){
-        return new DirectExchange(DIRECT_EXCHANGE);
+    public Queue allLogQueue(){
+        return new Queue(ALL_LOG_QUEUE, false);
     }
 
     @Bean
-    public Binding errorBinding(Queue errorQueue, DirectExchange directExchange){
-        return BindingBuilder.bind(errorQueue).to(directExchange).with("error");
+    public TopicExchange topicExchange(){
+        return new TopicExchange(TOPIC_EXCHANGE);
     }
 
     @Bean
-    public Binding warnBinding(Queue warnQueue, DirectExchange directExchange){
-        return BindingBuilder.bind(warnQueue).to(directExchange).with("warn");
+    public Binding errorBinding(Queue errorQueue, TopicExchange topicExchange){
+        return BindingBuilder.bind(errorQueue).to(topicExchange).with("log.error");
     }
 
     @Bean
-    public Binding infoBinding(Queue infoQueue, DirectExchange directExchange){
-        return BindingBuilder.bind(infoQueue).to(directExchange).with("info");
+    public Binding warnBinding(Queue warnQueue, TopicExchange topicExchange){
+        return BindingBuilder.bind(warnQueue).to(topicExchange).with("log.warn");
+    }
+
+    @Bean
+    public Binding infoBinding(Queue infoQueue, TopicExchange topicExchange){
+        return BindingBuilder.bind(infoQueue).to(topicExchange).with("log.info");
+    }
+
+    @Bean
+    public Binding allLogBinding(Queue allLogQueue, TopicExchange topicExchange){
+        return BindingBuilder.bind(allLogQueue).to(topicExchange).with("log.*");
     }
 }
