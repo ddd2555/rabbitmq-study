@@ -1,4 +1,4 @@
-package com.study.rabbitmq.step3;
+package com.study.rabbitmq.step5;
 
 
 import org.springframework.stereotype.Controller;

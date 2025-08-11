@@ -1,4 +1,4 @@
-package com.study.rabbitmq.step3.config;
+package com.study.rabbitmq.step5.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
