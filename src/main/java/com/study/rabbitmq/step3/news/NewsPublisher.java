@@ -11,18 +11,18 @@ public class NewsPublisher {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public String publishMessage(String news, String messageSuffix){
-        String message = news + messageSuffix;
-        rabbitTemplate.convertAndSend(RabbitMQConfig.FANOUT_EXCHANGE_FOR_NEWS, news, message);
+    public String publishMessage(MessageDto dto, String messageSuffix){
+        String message = dto.getNewsType() + messageSuffix;
+        rabbitTemplate.convertAndSend(RabbitMQConfig.FANOUT_EXCHANGE_FOR_NEWS, "news", dto);
         System.out.println("[#] News Published: " + message);
         return message;
     }
 
-    public String publish(String news){
-        return publishMessage(news, "관련 새 소식이 있어요!");
+    public String publish(MessageDto dto){
+        return publishMessage(dto, "관련 새 소식이 있어요!");
     }
 
-    public String publishAPI(String news){
-        return publishMessage(news, " - 관련 새 소식이 나왔습니다. (API)");
-    }
+//    public String publishAPI(String news){
+//        return publishMessage(news, " - 관련 새 소식이 나왔습니다. (API)");
+//    }
 }

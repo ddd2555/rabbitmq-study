@@ -13,9 +13,9 @@ public class NewsRestController {
 
     private final NewsPublisher newsPublisher;
 
-    @PostMapping("/publicsh")
-    public ResponseEntity<String> publishNews(@RequestParam String newsType){
-        String result = newsPublisher.publishAPI(newsType);
-        return ResponseEntity.ok("# Message published to RabbitMQ: " + result);
-    }
+//    @PostMapping("/publicsh")
+//    public ResponseEntity<String> publishNews(@RequestParam String newsType){
+//        String result = newsPublisher.publishAPI(newsType);
+//        return ResponseEntity.ok("# Message published to RabbitMQ: " + result);
+//    }
 }

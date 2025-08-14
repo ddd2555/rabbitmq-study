@@ -51,7 +51,12 @@
     // 서버에 선택한 뉴스 타입 전송
     function sendNewsType(newsType) {
         // Send the selected news type to the server
-        stompClient.send("/app/subscribe", {newsType: newsType}, "");
+        let message = {
+            "newsType": newsType,
+            "content": "messageInput", // 메시지 내용
+        };
+
+        stompClient.send("/app/subscribe", {}, JSON.stringify(message));
         console.log(`Sent newsType to server: ${newsType}`);
     }
 
@@ -62,8 +67,10 @@
             subscription.unsubscribe();
             console.log("Previous subscription cancelled.");
         }
+
         subscription = stompClient.subscribe(`/topic/${newsType}`, function (message) {
-            addMessageToDiv(message.body);
+            const response = JSON.parse(message.body);
+            addMessageToDiv(response);
         });
         console.log(`Subscribed to /topic/${newsType}`);
     }
@@ -71,8 +78,11 @@
     function addMessageToDiv(message) {
         const newsDiv = document.getElementById("news");
         const newMessage = document.createElement("div");
-        newMessage.textContent = message;
+        const newDate = document.createElement("div");
+        newMessage.textContent = message.content;
+        newDate.textContent = message.date;
         newsDiv.appendChild(newMessage);
+        newsDiv.appendChild(newDate);
     }
 
 </script>

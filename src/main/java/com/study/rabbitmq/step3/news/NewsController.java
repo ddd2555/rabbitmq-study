@@ -14,10 +14,10 @@ public class NewsController {
     private final NewsPublisher newsPublisher;
 
     @MessageMapping("/subscribe")
-    public void handleSubscribe(@Header("newsType") String newsType){
-        System.out.println("[#] newsType: " + newsType);
+    public void handleSubscribe(MessageDto dto){
+        System.out.println("[#] newsType: " + dto);
 
-        String newsMessage = newsPublisher.publish(newsType);
+        String newsMessage = newsPublisher.publish(dto);
 
         System.out.println("[#] newsMessage: " + newsMessage);
     }
